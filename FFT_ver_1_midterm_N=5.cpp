@@ -7,7 +7,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 int main()
 {
 	int i;
-	int N=3;
+	int N=5;
 	double y_re[N], y_im[N], x_re[N], x_im[N];
 	for(i=0;i<N;++i)
 	{
@@ -23,16 +23,40 @@ int main()
 }
 int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_im, int N)
 {
-	if(N==3) 
+	double w1_re,w1_im,w2_re,w2_im,w3_re,w3_im,w4_re,w4_im,w6_re,w6_im,w8_re,w8_im,w9_re,w9_im,w12_re,w12_im,w16_re,w16_im;
+	w1_re=0.3090169944;
+	w1_im=0.9510565163;
+	w2_re=-0.8090169944;
+	w2_im=0.5877852523;
+	w3_re=w2_re;
+	w3_im=-w2_im;
+	w4_re=w1_re;
+	w4_im=-w1_im;
+	w6_re=w1_re;
+	w6_im=w1_im;
+	w8_re=w2_re;
+	w8_im=-w2_im;
+	w9_re=w1_re;
+	w9_im=-w1_im;
+	w12_re=w2_re;
+	w12_im=w2_im;
+	w16_re=w1_re;
+	w16_im=w1_im;
+	if(N==5) 
 	{	
-		y_re[0] = x_re[0] + x_re[1]+x_re[2];
-		y_im[0] = x_im[0] + x_im[1] + x_im[2];
-		y_re[1] = x_re[0] -0.5* x_re[1]+(pow(3.0,0.5)/2)* x_im[1]-0.5*x_re[2]-(pow(3.0,0.5)/2)*x_im[2]; 
-		y_im[1] = x_im[0] -0.5* x_im[1]-(pow(3.0,0.5)/2)* x_re[1]-0.5*x_im[2]+(pow(3.0,0.5)/2)*x_re[2];
-		y_re[2] = x_re[0] -0.5* x_re[1]-(pow(3.0,0.5)/2)* x_im[1]-0.5*x_re[2]+(pow(3.0,0.5)/2)*x_im[2];
-		y_im[2] = x_im[0] -0.5* x_im[1]+(pow(3.0,0.5)/2)* x_re[1]-0.5*x_im[2]-(pow(3.0,0.5)/2)*x_re[2];
+		y_re[0] = x_re[0] + x_re[1] + x_re[2] + x_re[3] + x_re[4];
+		y_im[0] = x_im[0] + x_im[1] + x_im[2] + x_im[3] + x_im[4];
+		y_re[1] = x_re[0] + w1_re*x_re[1]-w1_im*x_im[1] + w2_re*x_re[2]-w2_im*x_im[2] + w3_re*x_re[3]-w3_im*x_im[3] + w4_re*x_re[4] - w4_im*x_im[4];
+		y_im[1] = x_im[0] + w1_im*x_re[1]+w1_re*x_im[1] + w2_im*x_re[2]+w2_re*x_im[2] + w3_im*x_re[3]+w3_re*x_im[3] + w4_im*x_re[4] + w4_re*x_im[4];
+		y_re[2] = x_re[0] + w2_re*x_re[1]-w2_im*x_im[1] + w4_re*x_re[2]-w4_im*x_im[2] + w6_re*x_re[3]-w6_im*x_im[3] + w8_re*x_re[4] - w8_im*x_im[4];
+		y_im[2] = x_im[0] + w2_im*x_re[1]+w2_re*x_im[1] + w4_im*x_re[2]+w4_re*x_im[2] + w6_im*x_re[3]+w6_re*x_im[3] + w8_im*x_re[4] + w8_re*x_im[4];
+		y_re[3] = x_re[0] + w3_re*x_re[1]-w3_im*x_im[1] + w6_re*x_re[2]-w6_im*x_im[2] + w9_re*x_re[3]-w9_im*x_im[3] + w12_re*x_re[4] - w12_im*x_im[4]; 
+		y_im[3] = x_im[0] + w3_im*x_re[1]+w3_re*x_im[1] + w6_im*x_re[2]+w6_re*x_im[2] + w9_im*x_re[3]+w9_re*x_im[3] + w12_im*x_re[4] + w12_re*x_im[4];
+		y_re[4] = x_re[0] + w4_re*x_re[1]-w4_im*x_im[1] + w8_re*x_re[2]-w8_im*x_im[2] + w12_re*x_re[3]-w12_im*x_im[3] + w16_re*x_re[4] - w16_im*x_im[4];
+		y_im[4] = x_im[0] + w4_im*x_re[1]+w4_re*x_im[1] + w8_im*x_re[2]+w8_re*x_im[2] + w12_im*x_re[3]+w12_re*x_im[3] + w16_im*x_re[4] + w16_re*x_im[4];
 		
-	} else 
+	} 
+	else 
 	{
 		//N=3
 		int k;
