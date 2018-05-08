@@ -58,38 +58,53 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 	} 
 	else 
 	{
-		//N=3
+		//N=5
 		int k;
-		double *y_30_re, *y_30_im, *y_31_re, *y_31_im,*y_32_re,*y_32_im;
-		double *x_30_re, *x_30_im, *x_31_re, *x_31_im,*x_32_re,*x_32_im;
+		double *y_50_re, *y_50_im, *y_51_re, *y_51_im,*y_52_re,*y_52_im,*y_53_re,*y_53_im,*y_54_re,*y_54_im;
+		double *x_50_re, *x_50_im, *x_51_re, *x_51_im,*x_52_re,*x_52_im,*x_53_re,*x_53_im,*x_54_re,*x_54_im;
 		double w_re, w_im, w_N_re, w_N_im, a, b , c , d , temp ;
-		y_30_re = (double *) malloc( N/3 * sizeof(double));
-		y_30_im = (double *) malloc( N/3 * sizeof(double));
-		y_31_re = (double *) malloc( N/3 * sizeof(double));
-		y_31_im = (double *) malloc( N/3 * sizeof(double));
-		y_32_re = (double *) malloc( N/3 * sizeof(double));
-		y_32_im = (double *) malloc( N/3 * sizeof(double));
-		x_30_re = (double *) malloc( N/3 * sizeof(double));
-		x_30_im = (double *) malloc( N/3 * sizeof(double));
-		x_31_re = (double *) malloc( N/3 * sizeof(double));
-		x_31_im = (double *) malloc( N/3 * sizeof(double));
-		x_32_re = (double *) malloc( N/3 * sizeof(double));
-		x_32_im = (double *) malloc( N/3 * sizeof(double));
+		y_50_re = (double *) malloc( N/5 * sizeof(double));
+		y_50_im = (double *) malloc( N/5 * sizeof(double));
+		y_51_re = (double *) malloc( N/5 * sizeof(double));
+		y_51_im = (double *) malloc( N/5 * sizeof(double));
+		y_52_re = (double *) malloc( N/5 * sizeof(double));
+		y_52_im = (double *) malloc( N/5 * sizeof(double));
+		y_53_re = (double *) malloc( N/5 * sizeof(double));
+		y_53_im = (double *) malloc( N/5 * sizeof(double));
+		y_54_re = (double *) malloc( N/5 * sizeof(double));
+		y_54_im = (double *) malloc( N/5 * sizeof(double));
+		x_50_re = (double *) malloc( N/5 * sizeof(double));
+		x_50_im = (double *) malloc( N/5 * sizeof(double));
+		x_51_re = (double *) malloc( N/5 * sizeof(double));
+		x_51_im = (double *) malloc( N/5 * sizeof(double));
+		x_52_re = (double *) malloc( N/5 * sizeof(double));
+		x_52_im = (double *) malloc( N/5 * sizeof(double));
+		x_53_re = (double *) malloc( N/5 * sizeof(double));
+		x_53_im = (double *) malloc( N/5 * sizeof(double));
+		x_54_re = (double *) malloc( N/5 * sizeof(double));
+		x_54_im = (double *) malloc( N/5 * sizeof(double));		
 	
-		for(k=0;k<N/3;++k)
+		for(k=0;k<N/5;++k)
 		{   //N=3
-			x_30_re[k]=x_re[3*k];
-	     	x_30_im[k]=x_im[3*k];
-			x_31_re[k]=x_re[3*k+1];
-			x_31_im[k]=x_im[3*k+1];
-			x_32_re[k]=x_re[3*k+2];
-			x_32_im[k]=x_im[3*k+2];
+			x_50_re[k]=x_re[5*k];
+	     	x_50_im[k]=x_im[5*k];
+			x_51_re[k]=x_re[5*k+1];
+			x_51_im[k]=x_im[5*k+1];
+			x_52_re[k]=x_re[5*k+2];
+			x_52_im[k]=x_im[5*k+2];
+			x_53_re[k]=x_re[5*k+3];
+			x_53_im[k]=x_im[5*k+3];
+			x_54_re[k]=x_re[5*k+4];
+			x_54_im[k]=x_im[5*k+4];
 			
 		}
 		//N=3
-		Fast_Fourier_Transform(y_30_re, y_30_im, x_30_re, x_30_im, N/3);
-		Fast_Fourier_Transform(y_31_re, y_31_im, x_31_re, x_31_im, N/3);
-		Fast_Fourier_Transform(y_32_re, y_32_im, x_32_re, x_32_im, N/3);
+		Fast_Fourier_Transform(y_50_re, y_50_im, x_50_re, x_50_im, N/5);
+		Fast_Fourier_Transform(y_51_re, y_51_im, x_51_re, x_51_im, N/5);
+		Fast_Fourier_Transform(y_52_re, y_52_im, x_52_re, x_52_im, N/5);
+		Fast_Fourier_Transform(y_53_re, y_53_im, x_53_re, x_53_im, N/5);
+		Fast_Fourier_Transform(y_54_re, y_54_im, x_54_re, x_54_im, N/5);
+
 		//N=2: y_k = even_k + w_N^k odd_k = even_k + (a + bi)
 		//N=3 : y_k=y_30[k]+ w_N^k(y_31[k])+w_N^2k(y_32[k]) 
 		//         =y_30[k]+(w_re+iw_im)*(y_31_re+iy_31_im)+(w_re+iw_im)^2*( y_32_re+iy_32_im)
@@ -99,25 +114,22 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 		w_im   = 0.0; 
 		
 		
-		for(k=0;k<N/3;++k)
+		for(k=0;k<N/5;++k)
 		{
-			a = w_re*y_31_re[k] - w_im*y_31_im[k];//real part
-			b = w_re*y_31_im[k] + w_im*y_31_re[k];//img part
-			c = pow(w_re,2)*y_32_re[k]-2*w_re*w_im*y_32_im[k]-pow(w_im,2)*y_32_re[k];  //real part
-			d = pow(w_re,2)*y_32_im[k]+2*w_re*w_im*y_32_re[k]-pow(w_im,2)*y_32_im[k];  
-			
-		/*	y_re[k]     = y_even_re[k] + a;
-			y_im[k]     = y_even_im[k] + b;
-			y_re[N/2+k] = y_even_re[k] - a;
-			y_im[N/2+k] = y_even_im[k] - b;
-			
-		*/
-		y_re[k]=y_30_re[k]+a+c;
-		y_im[k]=y_30_im[k]+b+d;
-		y_re[N/3+k]=y_30_re[k]-0.5*a+(pow(3.0,0.5)/2)*b-0.5*c-(pow(3.0,0.5)/2)*d;// problem in this one 
-		y_im[N/3+k]=y_30_im[k]-0.5*b-(pow(3.0,0.5)/2)*a-0.5*d+(pow(3.0,0.5)/2)*c;// problem in this one
-		y_re[2*N/3+k]=y_30_re[k]-0.5*a-(pow(3.0,0.5)/2)*b-0.5*c+(pow(3.0,0.5)/2)*d;// problem in this one
-		y_im[2*N/3+k]=y_30_im[k]-0.5*b+(pow(3.0,0.5)/2)*a-0.5*d-(pow(3.0,0.5)/2)*c;// problem in this one
+		
+		y_re[k]=y_50_re[k] + y_re[1] + x_re[2] + x_re[3] + x_re[4];
+		y_im[k]=
+		y_re[N/5+k]=
+		y_im[N/5+k]=
+		y_re[2*N/5+k]=
+		y_im[2*N/5+k]=
+		y_im[3*N/5+k]=
+		y_im[3*N/5+k]=
+		y_im[4*N/5+k]=
+		y_im[4*N/5+k]=
+		
+		
+		
 			
 		
 			temp = w_re;
@@ -125,19 +137,26 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 			w_im = temp*w_N_im + w_im*w_N_re;
 		}
 		//N=3
-		free(y_30_re);
-		free(x_30_re);
-		free(y_30_im);
-		free(x_30_im);
-		free(y_31_re);
-		free(y_31_im);
-		free(x_31_re);
-		free(x_31_im);
-		free(y_32_re);
-		free(y_32_im);
-		free(x_32_re);
-		free(x_32_im);
-		
+		free(y_50_re);
+		free(x_50_re);
+		free(y_50_im);
+		free(x_50_im);
+		free(y_51_re);
+		free(y_51_im);
+		free(x_51_re);
+		free(x_51_im);
+		free(y_52_re);
+		free(y_52_im);
+		free(x_52_re);
+		free(x_52_im);
+		free(y_53_re);
+		free(y_53_im);
+		free(x_53_re);
+		free(x_53_im);
+		free(y_54_re);
+		free(y_54_im);
+		free(x_54_re);
+		free(x_54_im);		
 	}
 
 }
