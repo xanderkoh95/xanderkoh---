@@ -45,15 +45,15 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 	if(N==5) 
 	{	
 		y_re[0] = x_re[0] + x_re[1] + x_re[2] + x_re[3] + x_re[4];
-		y_im[0] = x_im[0] + x_im[1] + x_im[2] + x_im[3] + x_im[4];
+		y_im[0] = x_im[0] - x_im[1] - x_im[2] - x_im[3] - x_im[4];
 		y_re[1] = x_re[0] + w1_re*x_re[1]-w1_im*x_im[1] + w2_re*x_re[2]-w2_im*x_im[2] + w3_re*x_re[3]-w3_im*x_im[3] + w4_re*x_re[4] - w4_im*x_im[4];
-		y_im[1] = x_im[0] + w1_im*x_re[1]+w1_re*x_im[1] + w2_im*x_re[2]+w2_re*x_im[2] + w3_im*x_re[3]+w3_re*x_im[3] + w4_im*x_re[4] + w4_re*x_im[4];
+		y_im[1] = x_im[0] - w1_im*x_re[1]-w1_re*x_im[1] - w2_im*x_re[2]-w2_re*x_im[2] - w3_im*x_re[3]-w3_re*x_im[3] - w4_im*x_re[4] - w4_re*x_im[4];
 		y_re[2] = x_re[0] + w2_re*x_re[1]-w2_im*x_im[1] + w4_re*x_re[2]-w4_im*x_im[2] + w6_re*x_re[3]-w6_im*x_im[3] + w8_re*x_re[4] - w8_im*x_im[4];
-		y_im[2] = x_im[0] + w2_im*x_re[1]+w2_re*x_im[1] + w4_im*x_re[2]+w4_re*x_im[2] + w6_im*x_re[3]+w6_re*x_im[3] + w8_im*x_re[4] + w8_re*x_im[4];
+		y_im[2] = x_im[0] - w2_im*x_re[1]+w2_re*x_im[1] - w4_im*x_re[2]+w4_re*x_im[2] - w6_im*x_re[3]+w6_re*x_im[3] - w8_im*x_re[4] - w8_re*x_im[4];
 		y_re[3] = x_re[0] + w3_re*x_re[1]-w3_im*x_im[1] + w6_re*x_re[2]-w6_im*x_im[2] + w9_re*x_re[3]-w9_im*x_im[3] + w12_re*x_re[4] - w12_im*x_im[4]; 
-		y_im[3] = x_im[0] + w3_im*x_re[1]+w3_re*x_im[1] + w6_im*x_re[2]+w6_re*x_im[2] + w9_im*x_re[3]+w9_re*x_im[3] + w12_im*x_re[4] + w12_re*x_im[4];
+		y_im[3] = x_im[0] - w3_im*x_re[1]+w3_re*x_im[1] - w6_im*x_re[2]+w6_re*x_im[2] - w9_im*x_re[3]+w9_re*x_im[3] - w12_im*x_re[4] - w12_re*x_im[4];
 		y_re[4] = x_re[0] + w4_re*x_re[1]-w4_im*x_im[1] + w8_re*x_re[2]-w8_im*x_im[2] + w12_re*x_re[3]-w12_im*x_im[3] + w16_re*x_re[4] - w16_im*x_im[4];
-		y_im[4] = x_im[0] + w4_im*x_re[1]+w4_re*x_im[1] + w8_im*x_re[2]+w8_re*x_im[2] + w12_im*x_re[3]+w12_re*x_im[3] + w16_im*x_re[4] + w16_re*x_im[4];
+		y_im[4] = x_im[0] - w4_im*x_re[1]+w4_re*x_im[1] - w8_im*x_re[2]+w8_re*x_im[2] - w12_im*x_re[3]+w12_re*x_im[3] - w16_im*x_re[4] - w16_re*x_im[4];
 		
 	} 
 	else 
