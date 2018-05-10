@@ -7,7 +7,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 int main()
 {
 	int i;
-	int N=3;
+	int N=27;
 	double y_re[N], y_im[N], x_re[N], x_im[N];
 	for(i=0;i<N;++i)
 	{
@@ -25,7 +25,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 {
 	if(N==3) 
 	{	
-		y_re[0] = x_re[0] + x_re[1]+x_re[2];
+		y_re[0] = x_re[0] + x_re[1] + x_re[2];
 		y_im[0] = x_im[0] + x_im[1] + x_im[2];
 		y_re[1] = x_re[0] -0.5* x_re[1]+(pow(3.0,0.5)/2)* x_im[1]-0.5*x_re[2]-(pow(3.0,0.5)/2)*x_im[2]; 
 		y_im[1] = x_im[0] -0.5* x_im[1]-(pow(3.0,0.5)/2)* x_re[1]-0.5*x_im[2]+(pow(3.0,0.5)/2)*x_re[2];
@@ -88,8 +88,8 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 			y_im[N/2+k] = y_even_im[k] - b;
 			
 		*/
-		y_re[k]=y_30_re[k]+a+c;
-		y_im[k]=y_30_im[k]+b+d;
+		y_re[k]=y_30_re[k] + a + c;
+		y_im[k]=y_30_im[k] + b + d;
 		y_re[N/3+k]=y_30_re[k]-0.5*a+(pow(3.0,0.5)/2)*b-0.5*c-(pow(3.0,0.5)/2)*d;// problem in this one 
 		y_im[N/3+k]=y_30_im[k]-0.5*b-(pow(3.0,0.5)/2)*a-0.5*d+(pow(3.0,0.5)/2)*c;// problem in this one
 		y_re[2*N/3+k]=y_30_re[k]-0.5*a-(pow(3.0,0.5)/2)*b-0.5*c+(pow(3.0,0.5)/2)*d;// problem in this one
