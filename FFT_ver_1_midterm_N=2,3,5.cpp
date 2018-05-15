@@ -8,16 +8,21 @@ int main()
 {
 	int i,N;
 	N=30;
-	double y_re[N], y_im[N], x_re[N], x_im[N];
+	double y_re[N], y_im[N], x_re[N], x_im[N],T;
+	clock_t t1, t2;
 	for(i=0;i<N;++i)
 	{
 		x_re[i] = i+1;
 		x_im[i] = 0.0;
 	}
+	t1=clock();
 	Fast_Fourier_Transform(y_re, y_im, x_re, x_im, N);
+	t2=clock();
+	T = 1.0*(t2-t1)/(double)CLOCKS_PER_SEC; 
+	printf("%f s\n",T);
     for(i=0;i<N;++i)
 	{
-		printf("%f + %f i\n", y_re[i], y_im[i]);
+	//	printf("%f + %f i\n", y_re[i], y_im[i]);
 	}
 	
 	 

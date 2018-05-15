@@ -7,7 +7,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 int main()
 {
 	int i,N;
-	N=12;
+	N=72;
 	double y_re[N], y_im[N], x_re[N], x_im[N];
 	for(i=0;i<N;++i)
 	{
