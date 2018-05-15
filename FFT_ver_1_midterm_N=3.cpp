@@ -7,7 +7,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 int main()
 {
 	int i;
-	int N=43046721;
+	int N=531441;
 	double *y_re, *y_im, *x_re, *x_im,T;
 	clock_t t1, t2;
 	y_re = (double *) malloc( N * sizeof(double));
@@ -53,20 +53,19 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 		double *y_30_re, *y_30_im, *y_31_re, *y_31_im,*y_32_re,*y_32_im;
 		double *x_30_re, *x_30_im, *x_31_re, *x_31_im,*x_32_re,*x_32_im;
 		double w_re, w_im, w_N_re, w_N_im, a, b , c , d , temp ;
-		y_30_re = (double *) malloc( N/3 * sizeof(double));
-		
-		y_30_im = (double *) malloc( N/3 * sizeof(double));
-		y_31_re = (double *) malloc( N/3 * sizeof(double));
-		y_31_im = (double *) malloc( N/3 * sizeof(double));
-		y_32_re = (double *) malloc( N/3 * sizeof(double));
-		y_32_im = (double *) malloc( N/3 * sizeof(double));
-		x_30_re = (double *) malloc( N/3 * sizeof(double));
-		x_30_im = (double *) malloc( N/3 * sizeof(double));
-		x_31_re = (double *) malloc( N/3 * sizeof(double));
-		x_31_im = (double *) malloc( N/3 * sizeof(double));
-		x_32_re = (double *) malloc( N/3 * sizeof(double));
-		x_32_im = (double *) malloc( N/3 * sizeof(double));
-	    #pragma omp parallel for 
+		y_30_re = (double *) malloc( N * sizeof(double));
+		y_30_im = (double *) malloc( N * sizeof(double));
+		y_31_re = (double *) malloc( N * sizeof(double));
+		y_31_im = (double *) malloc( N * sizeof(double));
+		y_32_re = (double *) malloc( N * sizeof(double));
+		y_32_im = (double *) malloc( N * sizeof(double));
+		x_30_re = (double *) malloc( N * sizeof(double));
+		x_30_im = (double *) malloc( N * sizeof(double));
+		x_31_re = (double *) malloc( N * sizeof(double));
+		x_31_im = (double *) malloc( N * sizeof(double));
+		x_32_re = (double *) malloc( N * sizeof(double));
+		x_32_im = (double *) malloc( N * sizeof(double));
+	     
 		for(k=0;k<N/3;++k)
 		{   //N=3
 			x_30_re[k]=x_re[3*k];
@@ -89,7 +88,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 		w_re   = 1.0;     // initial value
 		w_im   = 0.0; 
 		
-		#pragma omp parallel for
+		
 		for(k=0;k<N/3;++k)
 		{
 			a = w_re*y_31_re[k] - w_im*y_31_im[k];//real part

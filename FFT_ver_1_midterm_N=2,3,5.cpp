@@ -7,8 +7,12 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 int main()
 {
 	int i,N;
-	N=30;
-	double y_re[N], y_im[N], x_re[N], x_im[N],T;
+	N=43046721;
+	double *y_re, *y_im, *x_re, *x_im,T;
+	y_re = (double *) malloc( N * sizeof(double));
+	y_im = (double *) malloc( N * sizeof(double));
+	x_re = (double *) malloc( N * sizeof(double));
+    x_im = (double *) malloc( N * sizeof(double));
 	clock_t t1, t2;
 	for(i=0;i<N;++i)
 	{
@@ -24,7 +28,10 @@ int main()
 	{
 	//	printf("%f + %f i\n", y_re[i], y_im[i]);
 	}
-	
+	free(y_re);
+	free(y_im);
+	free(x_re);
+	free(x_im);
 	 
 }
 int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_im, int N)
