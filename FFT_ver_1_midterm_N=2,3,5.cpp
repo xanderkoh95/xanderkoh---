@@ -7,6 +7,8 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 int main()
 {
 	int i,N;
+	//printf("N=");
+	//scanf("%d",&N);
 	N=43046721;
 	double *y_re, *y_im, *x_re, *x_im,T;
 	y_re = (double *) malloc( N * sizeof(double));
@@ -23,7 +25,7 @@ int main()
 	Fast_Fourier_Transform(y_re, y_im, x_re, x_im, N);
 	t2=clock();
 	T = 1.0*(t2-t1)/(double)CLOCKS_PER_SEC; 
-	printf("%f s\n",T);
+	printf("time taken = %f s\n",T);
     for(i=0;i<N;++i)
 	{
 	//	printf("%f + %f i\n", y_re[i], y_im[i]);
@@ -78,26 +80,26 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 		double *y_50_re, *y_50_im, *y_51_re, *y_51_im,*y_52_re,*y_52_im,*y_53_re,*y_53_im,*y_54_re,*y_54_im;
 		double *x_50_re, *x_50_im, *x_51_re, *x_51_im,*x_52_re,*x_52_im,*x_53_re,*x_53_im,*x_54_re,*x_54_im;
 		double w_re, w_im, w_N_re, w_N_im, a, b , c , d , e , f , g , h , temp ;
-		y_50_re = (double *) malloc( N/5 * sizeof(double));
-		y_50_im = (double *) malloc( N/5 * sizeof(double));
-		y_51_re = (double *) malloc( N/5 * sizeof(double));
-		y_51_im = (double *) malloc( N/5 * sizeof(double));
-		y_52_re = (double *) malloc( N/5 * sizeof(double));
-		y_52_im = (double *) malloc( N/5 * sizeof(double));
-		y_53_re = (double *) malloc( N/5 * sizeof(double));
-		y_53_im = (double *) malloc( N/5 * sizeof(double));
-		y_54_re = (double *) malloc( N/5 * sizeof(double));
-		y_54_im = (double *) malloc( N/5 * sizeof(double));
-		x_50_re = (double *) malloc( N/5 * sizeof(double));
-		x_50_im = (double *) malloc( N/5 * sizeof(double));
-		x_51_re = (double *) malloc( N/5 * sizeof(double));
-		x_51_im = (double *) malloc( N/5 * sizeof(double));
-		x_52_re = (double *) malloc( N/5 * sizeof(double));
-		x_52_im = (double *) malloc( N/5 * sizeof(double));
-		x_53_re = (double *) malloc( N/5 * sizeof(double));
-		x_53_im = (double *) malloc( N/5 * sizeof(double));
-		x_54_re = (double *) malloc( N/5 * sizeof(double));
-		x_54_im = (double *) malloc( N/5 * sizeof(double));		
+		y_50_re = (double *) malloc( N * sizeof(double));
+		y_50_im = (double *) malloc( N * sizeof(double));
+		y_51_re = (double *) malloc( N * sizeof(double));
+		y_51_im = (double *) malloc( N * sizeof(double));
+		y_52_re = (double *) malloc( N * sizeof(double));
+		y_52_im = (double *) malloc( N * sizeof(double));
+		y_53_re = (double *) malloc( N * sizeof(double));
+		y_53_im = (double *) malloc( N * sizeof(double));
+		y_54_re = (double *) malloc( N * sizeof(double));
+		y_54_im = (double *) malloc( N * sizeof(double));
+		x_50_re = (double *) malloc( N * sizeof(double));
+		x_50_im = (double *) malloc( N * sizeof(double));
+		x_51_re = (double *) malloc( N * sizeof(double));
+		x_51_im = (double *) malloc( N * sizeof(double));
+		x_52_re = (double *) malloc( N * sizeof(double));
+		x_52_im = (double *) malloc( N * sizeof(double));
+		x_53_re = (double *) malloc( N * sizeof(double));
+		x_53_im = (double *) malloc( N * sizeof(double));
+		x_54_re = (double *) malloc( N * sizeof(double));
+		x_54_im = (double *) malloc( N * sizeof(double));		
 	
 		for(k=0;k<N/5;++k)
 		{   //N=3
@@ -197,14 +199,14 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 		double *y_even_re, *y_even_im, *y_odd_re, *y_odd_im;
 		double *x_even_re, *x_even_im, *x_odd_re, *x_odd_im;
 		double w_re, w_im, w_N_re, w_N_im, a, b, temp;
-		y_even_re = (double *) malloc( N/2 * sizeof(double));
-		y_even_im = (double *) malloc( N/2 * sizeof(double));
-		x_even_re = (double *) malloc( N/2 * sizeof(double));
-		x_even_im = (double *) malloc( N/2 * sizeof(double));
-		y_odd_re = (double *) malloc( N/2 * sizeof(double));
-		y_odd_im = (double *) malloc( N/2 * sizeof(double));
-		x_odd_re = (double *) malloc( N/2 * sizeof(double));
-		x_odd_im = (double *) malloc( N/2 * sizeof(double));
+		y_even_re = (double *) malloc( N * sizeof(double));
+		y_even_im = (double *) malloc( N * sizeof(double));
+		x_even_re = (double *) malloc( N * sizeof(double));
+		x_even_im = (double *) malloc( N * sizeof(double));
+		y_odd_re = (double *) malloc( N * sizeof(double));
+		y_odd_im = (double *) malloc( N * sizeof(double));
+		x_odd_re = (double *) malloc( N * sizeof(double));
+		x_odd_im = (double *) malloc( N * sizeof(double));
 		for(k=0;k<N/2;++k)
 		{
 			x_even_re[k] = x_re[2*k];
