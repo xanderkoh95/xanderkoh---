@@ -10,7 +10,7 @@ int i, j, k, p, N, Max_Steps = 100, M;
 	double h, **U, **F, **R, r, r0, r1;
 	time_t t1, t2;
 	
-	p = 2;
+	p = 3;
 	N = 1 << p;
 	M = (N-1)*(N-1);
 	printf("N = %d\n",N);
@@ -127,11 +127,13 @@ double Res(double **R, double **U, double **F, int N)
 {
 	int i, j;
 	double s, r=0.0;
+	
 	for(i=0;i<N-1;++i) 
 	{
 		for(j=0;j<N-1;++j)
 		{
-			
+     	if(i>(N-1)/2 && j>(N-1)/2)	
+		{
 			s = F[i][j]-U[i][j]*(-4);
 			if(j-1>=0) s -= U[i][j-1];
 			if(j+1< N-1) s -= U[i][j+1];
@@ -139,6 +141,8 @@ double Res(double **R, double **U, double **F, int N)
 			if(i+1< N-1) s -= U[i+1][j];
 			if(fabs(s) > r) r = fabs(s);
 			R[i][j] = s;
+		}	
+		
 		}
 	}
 
