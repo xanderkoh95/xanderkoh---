@@ -7,7 +7,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 int main()
 {
 	int i;
-	int N=531441;
+	int N=59049;
 	double *y_re, *y_im, *x_re, *x_im,T;
 	clock_t t1, t2;
 	y_re = (double *) malloc( N * sizeof(double));
@@ -77,6 +77,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 			
 		}
 		//N=3
+	//	#pragma omp parallel num_threads(2)
 		Fast_Fourier_Transform(y_30_re, y_30_im, x_30_re, x_30_im, N/3);
 		Fast_Fourier_Transform(y_31_re, y_31_im, x_31_re, x_31_im, N/3);
 		Fast_Fourier_Transform(y_32_re, y_32_im, x_32_re, x_32_im, N/3);
@@ -88,7 +89,7 @@ int Fast_Fourier_Transform(double *y_re, double *y_im, double *x_re, double *x_i
 		w_re   = 1.0;     // initial value
 		w_im   = 0.0; 
 		
-		
+		#pragma omp parallel for
 		for(k=0;k<N/3;++k)
 		{
 			a = w_re*y_31_re[k] - w_im*y_31_im[k];//real part
