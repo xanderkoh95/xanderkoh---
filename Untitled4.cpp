@@ -2,20 +2,20 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-
-int Gauss(double **U,double **F,int N);
-int Multi(double **U,double **F,int N);
-double Res(double **R,double **U,double **F,int N);
+int Jacobi_Iteration(double **U, double **F, int N);
+int GaussSeidel_Iteration(double **U, double **F, int N);
+int Multigrid_Iteration(double **U, double **F, int N);
+double Residual(double **R, double **U, double **F, int N);
 int main()
 {
-int i, j, k, p, N, Max_Steps = 100, M;
+	int i, j, k, p, N, Max_Steps = 100, M;
 	double h, **U, **F, **R, r, r0, r1;
 	time_t t1, t2;
 	
-	printf("N=2^");
-	scanf("%d",&p);
+	p = 32;
 	N = 1 << p;
 	M = (N-1)*(N-1);
+	printf("N = %d\n",N);
 	printf("Total Number of Unknowns = %d\n", M);
 	h = M_PI/N;
 	U = (double **) malloc( (N-1)*sizeof(double*) );
@@ -36,43 +36,69 @@ int i, j, k, p, N, Max_Steps = 100, M;
 			F[i][j] = 1.0*h*h;
 		}
 	}
-	r = r0 = Res(R, U, F, N);
+	r = r0 = Residual(R, U, F, N);
 	k = 0;
 	t1 = clock();
 	while(r > r0*1e-6 && k < Max_Steps)
 	{
-		Multi(U, F, N);
-		r1 = Res(R, U, F, N);
+		Multigrid_Iteration(U, F, N);
+		r1 = Residual(R, U, F, N);
 		k ++;
 		printf("%d:%e %f\n",k,r1,r1/r);
 		r = r1;
 	}
 	t2 = clock();
-	for(i=0;i<N-1;++i)
+	printf("Total time: %f\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);
+	return 0;
+}
+int Jacobi_Iteration(double **U, double **F, int N)
+{
+	int i, j;
+	double s, **V;
+
+	V = (double **) malloc( (N-1)*sizeof(double*) );
+	V[0] = (double *) malloc( (N-1)*(N-1)*sizeof(double) );
+	for(i=1;i<N-1;++i) V[i] = V[i-1] + (N-1);
+	
+	for(i=0;i<N-1;++i) 
 	{
-	    for(j=0;j<N-1;++j)
-	    {
-	   // 	printf("(%d,%d)%f\n",i+1,j+1,U[i][j]);
+		for(j=0;j<N-1;++j)
+		{
+			s = F[i][j];
+			if(j-1>=0) s -= U[i][j-1];
+			if(j+1< N-1) s -= U[i][j+1];
+			if(i-1>=0) s -= U[i-1][j];
+			if(i+1< N-1) s -= U[i+1][j];
+			V[i][j] = s/(-4.0);
 		}
 	}
-	printf("Total time: %f\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);
-	return 0;	
+	for(i=0;i<N-1;++i) 
+	{
+		for(j=0;j<N-1;++j)
+		{
+			U[i][j] = V[i][j];
+		}
 	}
-int Gauss(double **U,double **F,int N)
+	free(V[0]);
+	free(V);
+	
+	return 0;
+}
+int GaussSeidel_Iteration(double **U, double **F, int N)
 {
-	int i,j ; 
+	int i, j;
 	double s;
 	
-	for(i=0;i<N-1;++i)
+	for(i=0;i<N-1;++i) 
 	{
-        for(j=0;j<N-1;++j)
-        {
-        	s=F[i][j];
-        	if(j-1>=0) s -=U[i][j-1];
-        	if(j+1< N-1) s-=U[i][j+1];
-        	if(i-1>=0) s-=U[i-1][j];
-        	if(i+1< N-1) s -=U[i+1][j];
-        	U[i][j]= s/(-4.0);
+		for(j=0;j<N-1;++j)
+		{
+			s = F[i][j];
+			if(j-1>=0) s -= U[i][j-1];
+			if(j+1< N-1) s -= U[i][j+1];
+			if(i-1>=0) s -= U[i-1][j];
+			if(i+1< N-1) s -= U[i+1][j];
+			U[i][j] = s/(-4.0);
 		}
 	}
 	for(i=0;i<N-1;++i) 
@@ -111,10 +137,9 @@ int Gauss(double **U,double **F,int N)
 			U[i][j] = s/(-4.0);
 		}
 	}
-	
 	return 0;
 }
-int Multi(double **U, double **F, int N)
+int Multigrid_Iteration(double **U, double **F, int N)
 {
 	int i, j;
 	double s, r, **R, **Un, **Fn;
@@ -124,6 +149,7 @@ int Multi(double **U, double **F, int N)
 	}
 	else
 	{
+		// open memory for next level
 		R = (double **) malloc( (N-1)*sizeof(double*) );
 		R[0] = (double *) malloc( (N-1)*(N-1)*sizeof(double) );
 		for(i=1;i<N-1;++i) R[i] = R[i-1] + (N-1);		
@@ -134,19 +160,23 @@ int Multi(double **U, double **F, int N)
 		Fn[0] = (double *) malloc( (N/2-1)*(N/2-1)*sizeof(double) );
 		for(i=1;i<N/2-1;++i) Fn[i] = Fn[i-1] + (N/2-1);
 
-		
-		Gauss(U,F,N);
-		r = Res(R,U,F,N);
+		//Jacobi_Iteration(U,F,N);
+		GaussSeidel_Iteration(U,F,N);
+		r = Residual(R,U,F,N);
 		for(i=0;i<N/2-1;++i)
 		{
 			for(j=0;j<N/2-1;++j)
 			{
 				Un[i][j] = 0.0;
 				Fn[i][j] = 4*R[2*i+1][2*j+1];
-				
+				/*
+				Fn[i][j] = ((R[2*i][2*j]+2*R[2*i][2*j+1]+R[2*i][2*j+2])+
+				           (2*R[2*i+1][2*j]+4*R[2*i+1][2*j+1]+2*R[2*i+1][2*j+2])+
+						   (R[2*i+2][2*j]+2*R[2*i+2][2*j+1]+R[2*i+2][2*j+2]))/4.0;
+				*/
 			}
 		}
-		Multi(Un,Fn,N/2);
+		Multigrid_Iteration(Un,Fn,N/2);
 		for(i=0;i<N-1;++i)
 		{
 			for(j=0;j<N-1;++j)
@@ -188,7 +218,7 @@ int Multi(double **U, double **F, int N)
 				U[i][j] += R[i][j];
 			}
 		}
-		Gauss(U,F,N);
+		GaussSeidel_Iteration(U,F,N);
 		free(R[0]);
 		free(R);
 		free(Un[0]);
@@ -198,7 +228,7 @@ int Multi(double **U, double **F, int N)
 	}
 	return 0;
 }
-double Res(double **R, double **U, double **F, int N)
+double Residual(double **R, double **U, double **F, int N)
 {
 	int i, j;
 	double s, r=0.0;
